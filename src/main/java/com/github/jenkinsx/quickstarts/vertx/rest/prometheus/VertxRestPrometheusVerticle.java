@@ -1,4 +1,4 @@
-package com.github.hekonsek.vertx.rest.prometheus;
+package com.github.jenkinsx.quickstarts.vertx.rest.prometheus;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.Gauge;
@@ -6,7 +6,6 @@ import io.prometheus.client.hotspot.DefaultExports;
 import io.prometheus.client.vertx.MetricsHandler;
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
-import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
