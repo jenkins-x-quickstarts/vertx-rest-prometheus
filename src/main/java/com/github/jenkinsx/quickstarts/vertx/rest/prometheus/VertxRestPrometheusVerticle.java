@@ -1,7 +1,7 @@
 package com.github.jenkinsx.quickstarts.vertx.rest.prometheus;
 
 import io.prometheus.client.CollectorRegistry;
-import io.prometheus.client.Gauge;
+import io.prometheus.client.Counter;
 import io.prometheus.client.hotspot.DefaultExports;
 import io.prometheus.client.vertx.MetricsHandler;
 import io.vertx.core.AbstractVerticle;
@@ -10,9 +10,15 @@ import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 
+import static io.prometheus.client.Counter.build;
 import static io.vertx.core.Vertx.vertx;
 
 public class VertxRestPrometheusVerticle extends AbstractVerticle {
+
+    private final CollectorRegistry registry = CollectorRegistry.defaultRegistry;
+
+    private final Counter helloCounter = build("hello_count", "Number of incoming requests to /hello endpoint.").
+                    register(registry);
 
     @Override
     public void start(Future<Void> startFuture) throws Exception {
@@ -27,6 +33,7 @@ public class VertxRestPrometheusVerticle extends AbstractVerticle {
 
     private void exposeHelloWorldEndpoint(Router router) {
         router.route("/hello").handler(routingContext -> {
+            helloCounter.inc();
             HttpServerResponse response = routingContext.response();
             response.putHeader("content-type", "application/json");
             response.end(new JsonObject().put("hello", "world").toBuffer());
@@ -34,16 +41,11 @@ public class VertxRestPrometheusVerticle extends AbstractVerticle {
     }
 
     private void exposeMetricsEndpoint(Router router) {
-        CollectorRegistry registry = CollectorRegistry.defaultRegistry;
         DefaultExports.initialize();
         router.route("/metrics").handler(new MetricsHandler(registry));
-
-        vertx.createHttpServer().requestHandler(router::accept).listen(8080);
-
-        Gauge.build("a", "a help").register(registry);
-        Gauge.build("b", "b help").register(registry);
-        Gauge.build("c", "c help").register(registry);
     }
+
+    // IDE testing helper
 
     public static void main(String[] args) {
         vertx().deployVerticle(new VertxRestPrometheusVerticle());
