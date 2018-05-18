@@ -16,7 +16,7 @@
         <vertx.version>3.5.1</vertx.version>
 
         <!-- Vert.x configuration -->
-        <vertx.launcher>com.github.hekonsek.vertx.rest.prometheus.VertxRestPrometheusApp</vertx.launcher>
+        <vertx.verticle>com.github.hekonsek.vertx.rest.prometheus.VertxRestPrometheusVerticle</vertx.verticle>
     </properties>
 
     <dependencyManagement>
@@ -33,6 +33,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_vertx</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
         </dependency>
@@ -43,6 +53,8 @@
     </dependencies>
 
     <build>
+        <defaultGoal>clean install</defaultGoal>
+
         <plugins>
             <plugin>
                 <groupId>io.reactiverse</groupId>
