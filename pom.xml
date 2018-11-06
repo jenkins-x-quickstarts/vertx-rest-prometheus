@@ -19,7 +19,7 @@
         <vertx-maven-plugin.version>1.0.15</vertx-maven-plugin.version>
 
         <!-- Vert.x configuration -->
-        <vertx.verticle>com.github.hekonsek.vertx.rest.prometheus.VertxRestPrometheusVerticle</vertx.verticle>
+        <vertx.verticle>com.github.jenkinsx.quickstarts.vertx.rest.prometheus.VertxRestPrometheusVerticle</vertx.verticle>
     </properties>
 
     <dependencyManagement>
